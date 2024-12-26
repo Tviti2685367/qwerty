@@ -1,0 +1,96 @@
+using UnityEngine;  
+using UnityEngine.SceneManagement;  
+
+public class SwitchScenes : MonoBehaviour  
+{  
+    public void LoadTest1_1()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.1");  
+    }  
+
+    public void LoadTest1_2()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.2");  
+    }  
+
+    public void LoadTest1_3()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.3");  
+    }  
+
+    public void LoadTest1_4()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.4");  
+    }  
+
+    public void LoadTest1_5()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.5");  
+    }  
+
+    public void LoadTest1_6()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.6");  
+    }  
+
+    public void LoadTest1_7()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.7");  
+    }  
+
+    public void LoadTest1_8()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.8");  
+    }  
+
+    public void LoadTest1_9()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.9");  
+    }  
+
+    public void LoadTest1_10()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.10");  
+    }  
+
+    public void LoadTest1_11()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.11");  
+    }  
+
+    public void LoadTest1_12()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.12");  
+    }  
+
+    public void LoadTest1_13()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Test1.13");  
+    }  
+
+    public void LoadMenu()  
+    {  
+        ResetCorrectCount();  
+        SceneManager.LoadScene("Menu");  
+    }  
+
+    private void ResetCorrectCount()  
+    {  
+        PlayerPrefs.SetInt("CorrectCount", 0);   
+        PlayerPrefs.Save();   
+        Debug.Log("Лічильник правильних натискань скинуто на нуль.");   
+    } 
+}
