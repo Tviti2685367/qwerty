@@ -1,0 +1,40 @@
+using UnityEngine;  
+using UnityEngine.UI;  
+
+public class FinalSceneDisplay : MonoBehaviour  
+{  
+    public Text finalScoreText;  
+    public Text qwertyText;      
+
+    private void Start()  
+    {  
+        DisplayFinalScore();  
+        DisplayQwertyText();  
+    }  
+
+    private void DisplayFinalScore()  
+    {  
+        if (finalScoreText != null)  
+        {  
+            int finalScore = PlayerPrefs.GetInt("CorrectCount", 0);  
+            finalScoreText.text = finalScore.ToString();  
+        }  
+        else  
+        {  
+            Debug.LogError("finalScoreText не прив'язано в інспекторі!");  
+        }  
+    }  
+
+    private void DisplayQwertyText()  
+    {  
+        if (qwertyText != null)  
+        {  
+            int finalScore = ButtonClickCounter.correctCount;  
+            qwertyText.text = finalScore.ToString();  
+        }  
+        else  
+        {  
+            Debug.LogError("qwertyText не прив'язано в інспекторі!");  
+        }  
+    }  
+}
