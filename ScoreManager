@@ -1,0 +1,122 @@
+using UnityEngine;  
+using UnityEngine.SceneManagement;  
+using UnityEngine.UI;  
+
+public class ScoreManager : MonoBehaviour  
+{  
+    private static float totalScore = 0.0f;  
+    public Text scoreText;  
+
+    private void Start()  
+    {  
+        totalScore = PlayerPrefs.GetFloat("TotalScore", 0f);  
+    }  
+
+    public void ButtonPressed(string buttonName)  
+    {  
+        string currentScene = SceneManager.GetActiveScene().name;  
+        float score = GetScoreForButton(buttonName, currentScene);  
+        
+        if (score > 0)  
+        {  
+            totalScore += score;  
+            PlayerPrefs.SetFloat("TotalScore", totalScore);  
+            PlayerPrefs.Save();  
+        }  
+        
+        LoadNextScene(currentScene);  
+    }  
+
+    private float GetScoreForButton(string buttonName, string sceneName)  
+    {  
+        switch (sceneName)  
+        {  
+            case "Test2.1":  
+            case "Test2.2":  
+            case "Test2.3":  
+                return buttonName == "Button1" ? 0.5f : 0f;  
+            case "Test2.4":  
+                return buttonName == "Button2" ? 0.5f : 0f;  
+            case "Test2.5":  
+                return buttonName == "Button2" ? 1f : 0f;  
+            case "Test2.6":  
+                return buttonName == "Button3" ? 1f : 0f;  
+            case "Test2.7":  
+                return buttonName == "Button2" ? 1f : 0f;  
+            case "Test2.8":  
+                return buttonName == "Button3" ? 2f : 0f;  
+            case "Test2.9":  
+                return buttonName == "Button1" ? 2f : 0f;  
+            case "Test2.10":  
+                return buttonName == "Button1" ? 3f : 0f;  
+            default:  
+                return 0f;  
+        }  
+    }  
+
+    private void LoadNextScene(string currentScene)  
+    {  
+        switch (currentScene)  
+        {  
+            case "Test2.1":  
+                SceneManager.LoadScene("Test2.2");  
+                break;  
+            case "Test2.2":  
+                SceneManager.LoadScene("Test2.3");  
+                break;  
+            case "Test2.3":  
+                SceneManager.LoadScene("Test2.4");  
+                break;  
+            case "Test2.4":  
+                SceneManager.LoadScene("Test2.5");  
+                break;  
+            case "Test2.5":  
+                SceneManager.LoadScene("Test2.6");  
+                break;  
+            case "Test2.6":  
+                SceneManager.LoadScene("Test2.7");  
+                break;  
+            case "Test2.7":  
+                SceneManager.LoadScene("Test2.8");   
+                break;   
+            case "Test2.8":   
+                SceneManager.LoadScene("Test2.9");   
+                break;   
+            case "Test2.9":   
+                SceneManager.LoadScene("Test2.10");   
+                break;   
+            case "Test2.10":   
+                SceneManager.LoadScene("Test2.11");   
+                break;   
+            default:   
+                Debug.LogWarning("Unknown scene: " + currentScene);   
+                break;   
+        }   
+    }  
+
+    private void UpdateScoreDisplay()  
+    {    
+        if (SceneManager.GetActiveScene().name == "Test2.11" && scoreText != null)    
+        {    
+            scoreText.text = totalScore.ToString("F1");    
+        }    
+    }  
+
+    public void ReturnToMenu()    
+    {    
+        ResetScore();    
+        SceneManager.LoadScene("Menu");    
+    }  
+
+    private void ResetScore()    
+    {    
+        totalScore = 0f;    
+        PlayerPrefs.SetFloat("TotalScore", totalScore);    
+        PlayerPrefs.Save();    
+    }  
+
+    private void OnGUI()   
+    {    
+        UpdateScoreDisplay();    
+    } 
+}
