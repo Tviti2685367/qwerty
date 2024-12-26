@@ -1,5 +1,3 @@
-#ButtonClickCounter 
-
 using UnityEngine;  
 using UnityEngine.SceneManagement;  
 using TMPro;  
