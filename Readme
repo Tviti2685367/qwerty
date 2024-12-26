@@ -1,1 +1,111 @@
-# Привіт 
+#ButtonClickCounter 
+
+using UnityEngine;  
+using UnityEngine.SceneManagement;  
+using TMPro;  
+using System.Collections;  
+
+public class ButtonClickCounter : MonoBehaviour  
+{  
+    public TMP_Text scoreText;           
+    public static int correctCount;       
+    private string correctButton;  
+
+    private void Awake()  
+    {  
+        correctCount = PlayerPrefs.GetInt("CorrectCount", 0);  
+        Debug.Log($"Awake: Завантажено correctCount: {correctCount}");  
+    }  
+
+    public void LoadMenu()  
+    {  
+        PlayerPrefs.SetInt("CorrectCount", 0);  
+        PlayerPrefs.Save();  
+        SceneManager.LoadScene("Menu");  
+    }  
+
+    public void OnButtonClick(string buttonName)  
+    {  
+        correctButton = GetCorrectButton(SceneManager.GetActiveScene().name);  
+
+        if (buttonName == correctButton)  
+        {  
+            correctCount++;  
+            PlayerPrefs.SetInt("CorrectCount", correctCount);  
+            PlayerPrefs.Save();  
+            Debug.Log($"Правильна кнопка '{buttonName}' натиснута. Наразі правильних відповідей: {correctCount}");  
+            StartCoroutine(LoadNextSceneWithDelay(1f));  
+        }  
+        else if (correctButton != null)  
+        {  
+            Debug.Log($"Неправильна кнопка '{buttonName}' натиснута. Перехід до наступної сцени."); 
+            StartCoroutine(LoadNextSceneWithDelay(1f)); 
+        }  
+    }  
+
+    private string GetCorrectButton(string sceneName)  
+    {  
+        switch (sceneName)  
+        {  
+            case "Test1.1": return "Button2";  
+            case "Test1.2": return "Button1";  
+            case "Test1.3": return "Button3";  
+            case "Test1.4": return "Button2";  
+            case "Test1.5": return "Button2";  
+            case "Test1.6": return "Button2";  
+            case "Test1.7": return "Button2";  
+            case "Test1.8": return "Button1";  
+            case "Test1.9": return "Button2";  
+            case "Test1.10": return "Button3";  
+            case "Test1.11": return "Button3";  
+            case "Test1.12": return "Button3";  
+            case "Test1.13": ShowResult(); return null; 
+            default: return null; 
+        }  
+    }  
+
+    private IEnumerator LoadNextSceneWithDelay(float delay) 
+    { 
+        yield return new WaitForSeconds(delay); 
+        LoadNextScene(); 
+    }  
+
+    private void LoadNextScene() 
+    { 
+        string currentScene = SceneManager.GetActiveScene().name; 
+        string[] sceneParts = currentScene.Split('.'); 
+        if (sceneParts.Length < 2) return; 
+
+        int currentIndex = int.Parse(sceneParts[1]); 
+        int nextIndex = currentIndex + 1; 
+
+        if (nextIndex > 13) nextIndex = 13; 
+
+        string nextSceneName = "Test1." + nextIndex; 
+
+        if (Application.CanStreamedLevelBeLoaded(nextSceneName)) 
+        { 
+            SceneManager.LoadScene(nextSceneName); 
+        } 
+    }  
+
+    public void ShowResult() 
+    { 
+        DisplayScore();   
+        SceneManager.LoadScene("Test1.13"); 
+    }  
+
+    private void Start() 
+    { 
+        DisplayScore(); 
+    }  
+
+    private void DisplayScore() 
+    { 
+        if (scoreText != null) 
+        { 
+            scoreText.text = correctCount.ToString(); 
+        } 
+    }
+}
+ 
