@@ -1,0 +1,190 @@
+using UnityEngine;  
+using UnityEngine.SceneManagement;  
+using UnityEngine.UI;  
+
+public class ScoreTracker : MonoBehaviour  
+{  
+    private int score;  
+    public Text scoreText;  
+    public Text messageText;  
+    private static int correctCount;  
+
+    private void Start()  
+    {  
+        score = 0;  
+        correctCount = PlayerPrefs.GetInt("CorrectCount", 0);  
+        UpdateScoreDisplay();  
+    }  
+
+    public void OnButtonClicked(string buttonName)  
+    {  
+        Debug.Log("Button clicked: " + buttonName);  
+        string currentScene = SceneManager.GetActiveScene().name;  
+
+        switch (currentScene)  
+        {  
+            case "Test3.2":  
+                if (buttonName == "Button3") 
+                { 
+                    LoadScene("Test3.3");
+                    correctCount++; 
+                    PlayerPrefs.SetInt("CorrectCount", correctCount); 
+                } 
+                else LoadNextScene(); 
+                break;  
+
+            case "Test3.3":  
+                if (buttonName == "Button3") 
+                { 
+                    LoadScene("Test3.4");
+                    correctCount++;
+                    PlayerPrefs.SetInt("CorrectCount", correctCount);
+                } 
+                else LoadNextScene(); 
+                break;  
+
+            case "Test3.4":  
+                if (buttonName == "Button2") 
+                { 
+                    LoadScene("Test3.5");
+                    correctCount++;
+                    PlayerPrefs.SetInt("CorrectCount", correctCount);
+                } 
+                else LoadNextScene(); 
+                break;  
+
+            case "Test3.5":  
+                if (buttonName == "Button2") 
+                { 
+                    LoadScene("Test3.6");
+                    correctCount++;
+                    PlayerPrefs.SetInt("CorrectCount", correctCount);
+                } 
+                else LoadNextScene(); 
+                break;  
+
+            case "Test3.6":  
+                if (buttonName == "Button3") 
+                { 
+                    LoadScene("Test3.7");
+                    correctCount++;
+                    PlayerPrefs.SetInt("CorrectCount", correctCount);
+                } 
+                else LoadNextScene(); 
+                break;  
+
+            case "Test3.7":  
+                if (buttonName == "Button1") 
+                { 
+                    LoadScene("Test3.8");
+                    correctCount++;
+                    PlayerPrefs.SetInt("CorrectCount", correctCount);
+                } 
+                else LoadNextScene(); 
+                break;  
+
+            case "Test3.8":  
+                if (buttonName == "Button1") 
+                { 
+                    LoadScene("Test3.9");
+                    correctCount++;
+                    PlayerPrefs.SetInt("CorrectCount", correctCount);
+                } 
+                else LoadNextScene(); 
+                break;  
+
+            case "Test3.9":  
+                if (buttonName == "Button1") 
+                { 
+                    LoadScene("Test3.10");
+                    correctCount++;
+                    PlayerPrefs.SetInt("CorrectCount", correctCount);
+                } 
+                else LoadNextScene(); 
+                break;  
+
+            case "Test3.10": 
+                if (buttonName == "Button1")   
+                {  
+                    DisplayMessage("Вітаємо! Ви досягли кінця!"); 
+                } 
+                else 
+                {
+                    LoadNextScene(); 
+                }
+                break; 
+
+            default:  
+                Debug.LogWarning("Unknown scene: " + currentScene);  
+                break;  
+        }  
+
+        UpdateScoreDisplay();  
+    }  
+
+    private void LoadNextScene() 
+    { 
+        string currentScene = SceneManager.GetActiveScene().name;
+        string[] sceneParts = currentScene.Split('.'); 
+        
+        if (sceneParts.Length < 2) return;
+
+        int currentIndex = int.Parse(sceneParts[1]);
+        int nextIndex = currentIndex + 1;
+
+        if (nextIndex > 10) // Змініть 10 на фактичну максимальну кількість ваших сцен
+        {
+            Debug.Log("Досягнуто кінця доступних сцен.");
+            return; 
+        }
+
+        string nextSceneName = "Test" + sceneParts[0].Substring(4) + "." + nextIndex;
+
+        Debug.Log("Attempting to load next scene: " + nextSceneName);
+        SceneManager.LoadScene(nextSceneName); 
+    }
+
+    private void LoadScene(string sceneName) 
+    {  
+        Debug.Log("Attempting to load scene: " + sceneName);  
+        SceneManager.LoadScene(sceneName);  
+    }  
+
+    public void ResetScore()   
+    {   
+        score = 0;   
+        UpdateScoreDisplay();   
+    }  
+
+    private void UpdateScoreDisplay()   
+    {   
+        if (scoreText != null)   
+        {   
+            scoreText.text = correctCount.ToString();   
+        }   
+        else   
+        {   
+            Debug.LogError("scoreText не підключено в інспекторі!");   
+        }   
+    }
+
+    public void GoToMenu()    
+    {
+        PlayerPrefs.SetInt("CorrectCount", 0);    
+        PlayerPrefs.Save();
+        
+        SceneManager.LoadScene("Menu");    
+    }
+    
+    private void DisplayMessage(string message)   
+    {   
+        if (messageText != null)   
+        {   
+            messageText.text = message;   
+        }   
+        else   
+        {   
+            Debug.LogError("messageText не підключено в інспекторі!");   
+        }   
+    }
+}
